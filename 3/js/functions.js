@@ -1,24 +1,26 @@
-function checkStringLength(string, length) {
-  return string.length <= length;
-}
+const checkStringLength = (string, length) => string.length <= length;
 
-function isPalindrome(string) {
-  let targetString = string.replaceAll(' ', '').toLowerCase();
+const isPalindrome = function(string) {
+  const targetString = string.replaceAll(' ', '').toLowerCase();
   let newString = '';
   for (let i = targetString.length - 1; i >= 0; i--) {
     newString += targetString[i];
   }
   return targetString === newString;
-}
+};
 
 
-function getInteger(string) {
+const getInteger = function(string) {
   string = string.toString();
   let parseIneger = '';
   for (let i = 0; i < string.length; i++) {
-    if (Number(string[i]) || string[i] == '0') {
+    if (Number(string[i]) || string[i] === '0') {
       parseIneger += (+string[i]);
     }
   }
   return parseInt(parseIneger, 10);
-}
+};
+
+console.log(checkStringLength('проверяемая строка', 20));
+console.log(isPalindrome('Лёша на полке клопа нашёл '));
+console.log(getInteger('1 кефир, 0.5 батона'));

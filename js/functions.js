@@ -21,6 +21,9 @@ const getInteger = function(string) {
   return parseInt(parseIneger, 10);
 };
 
+// eslint-disable-next-line
 console.log(checkStringLength('проверяемая строка', 20));
+// eslint-disable-next-line
 console.log(isPalindrome('Лёша на полке клопа нашёл '));
+// eslint-disable-next-line
 console.log(getInteger('1 кефир, 0.5 батона'));

@@ -1,7 +1,7 @@
-import { getRandomNum } from './get-random-num.js';
-import { getUniqueCommentId } from './get-unique-ids.js';
+import { getRandomNum } from './utils.js';
+import { getUniqueCommentId } from './utils.js';
 
-const COMMENT_ID = getUniqueCommentId();
+const commentId = getUniqueCommentId();
 const MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -13,16 +13,17 @@ const MESSAGES = [
 const NAMES = ['Артём', 'Виктор', 'Ольга', 'Анна', 'Дмитрий', 'Ирина'];
 
 const getComment = () => {
-  const COMMENTS = [];
+  const comments = [];
   for (let i = 0; i < getRandomNum(0, 30); i++) {
-    COMMENTS.push({
-      id: COMMENT_ID(),
+    comments.push({
+      id: commentId(),
       avatar: `img/avatar-${getRandomNum(1, 6)}.svg`,
       message: MESSAGES[getRandomNum(0, MESSAGES.length - 1)],
       name: NAMES[getRandomNum(0, NAMES.length - 1)],
     });
   }
-  return COMMENTS;
+  return comments;
 };
 
+console.log(getComment());
 export { getComment };

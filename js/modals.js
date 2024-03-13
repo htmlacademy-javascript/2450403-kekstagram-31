@@ -10,14 +10,12 @@ const onDocumentKeydown = (evt) => {
     evt.preventDefault();
     closeModal();
   }
-
 };
 
-const closeModal = () => {
-  bigPicture.classList.remove('hidden');
-
+function closeModal () {
+  bigPicture.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
-};
+}
 
 const onCloseBigPicture = () => {
   closeModal();
@@ -27,16 +25,17 @@ const openModal = () => {
   bigPicture.classList.remove('hidden');
   document.addEventListener('keydown', onDocumentKeydown);
   document.body.classList.add('modal-open');
+  document.querySelector('.social__comment-count').classList.add('hidden');
+  document.querySelector('.comments-loader').classList.add('hidden');
 };
 
 
-const onPictureBlockClick = (evt) => {
-  const chosenPicture = evt.target.closest('.pictures');
-
+function onPictureBlockClick (evt) {
+  const chosenPicture = evt.target.closest('.picture');
   makeFullModal(chosenPicture, bigPicture);
-  openModal();
-};
+}
 
 pictureBlock.addEventListener('click', onPictureBlockClick);
+bigPicture.addEventListener('click', onCloseBigPicture);
 
 export {onDocumentKeydown, onCloseBigPicture, openModal, closeModal, onPictureBlockClick};

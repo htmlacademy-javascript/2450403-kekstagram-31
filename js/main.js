@@ -1,2 +1,3 @@
 import './utils.js';
-import './thumbnail-rendering.js';
+import './modals.js';
+import './open-full-picture.js';

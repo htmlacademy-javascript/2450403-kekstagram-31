@@ -20,6 +20,4 @@ const createMiniPics = () => {
   return pictureFragment;
 };
 
-pictureBlock.appendChild(createMiniPics());
-
-export { pictureBlock, createMiniPics };
+export { pictureBlock, thumbnailInfoArray, createMiniPics };

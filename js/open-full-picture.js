@@ -1,18 +1,7 @@
 import { pictureBlock, thumbnailInfoArray, createMiniPics } from './thumbnail-rendering.js';
-import { onDocumentKeydown, onCloseBigPicture, openModal, closeModal, onPictureBlockClick } from './modals.js'
-import { isEscapeKey } from './utils.js';
+import { openModal } from './modals.js';
 
-const bigPicture = document.querySelector('.big-picture');
-const likesAmount = bigPicture.querySelector('.likes-count');
-const bigImage = bigPicture.querySelector('.big-picture__img');
-
-// const commentsTotalCount = bigPicture.querySelector('.social__comment-total-count');
-// const socialCaption = bigPicture.querySelector('.social__caption');
-// const commentCountBlock = bigPicture.querySelector('.social__comment-total-count');
-// const commentsLoader = bigPicture.querySelector('.comments-loader');
-
-const socialComments = document.querySelector('.social__comments');
-socialComments.innerHTML = '';
+pictureBlock.appendChild(createMiniPics());
 
 const renderingComments = (src, name, message) => {
   const socialCommentsList = document.createElement('li');
@@ -30,8 +19,6 @@ const renderingComments = (src, name, message) => {
   socialText.textContent = message;
   socialCommentsList.append(socialPicture, socialText);
 
-  // socialComments.appendChild(socialCommentsList);
-
   return socialCommentsList;
 };
 
@@ -42,25 +29,16 @@ const pictureMap = thumbnailInfoArray.reduce((acc, val) => {
 
 const makeFullModal = (clikedPic, bigPic) => {
   const {url, description, likes, comments } = pictureMap.get(clikedPic.id);
-  bigPic.querySelector('.big-picture__img').src = url;
+  bigPic.querySelector('.big-picture__img img').src = url;
   bigPic.querySelector('.likes-count').textContent = likes;
-  bigPic.querySelector('.social__comment-total-count') = comments.length;
-  bigPic.querySelector('.social__caption') = description;
+  bigPic.querySelector('.social__comment-total-count').textContent = comments.length;
+  bigPic.querySelector('.social__caption').textContent = description;
   openModal();
+  const socialComments = document.querySelector('.social__comments');
+  socialComments.innerHTML = '';
+  comments.forEach((comment) => {
+    socialComments.append(renderingComments(comment.avatar, comment.name, comment.message));
+  });
 };
-
-// pictureBlock.children.forEach((picture) => {
-//   picture.addEventListener('click', () =>{
-//     bigPicture.classList.remove('hidden');
-//     bigImage.querySelector('img').src = picture.querySelector('.picture__img').src;
-//     likesAmount.textContent = picture.querySelector('.picture__likes').textContent;
-//     commentsShownCount.textContent = picture.querySelector('.picture__comments').textContent;
-//     commentsTotalCount.textContent = picture.picCommentsInfo.length;
-//     bigPicture.querySelector('.social__caption').textContent = picture.querySelector('.img').alt;
-//     bigPicture.querySelector('.social__comment-count.classList').add('hidden');
-//     bigPicture.querySelector('.comments-loader').classList.add('hidden');
-//     body.classList.add('modal-open');
-//   });
-// });
 
 export { makeFullModal} ;

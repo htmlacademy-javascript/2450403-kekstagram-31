@@ -26,4 +26,6 @@ function getUniqueCommentId() {
   };
 }
 
-export { getRandomNum, getUniqueId, getUniqueCommentId};
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export { getRandomNum, getUniqueId, getUniqueCommentId, isEscapeKey };

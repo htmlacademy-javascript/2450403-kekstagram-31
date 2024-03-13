@@ -1,33 +1,23 @@
-import { getRandomNum } from './get-random-num.js';
-import { getUniqueId } from './get-unique-ids.js';
+import { createThumbnailInfo } from './comments.js';
+import { MIN_LIKES, MAX_LIKES, MAX_ID } from './data.js';
 
-const TEMPLATE_BLOCK = document.querySelector('#picture').content;
-const PICTURE_BLOCK = document.querySelector('.pictures');
+const templateBlock = document.querySelector('#picture').content.querySelector('.picture');
+const pictureBlock = document.querySelector('.pictures');
 
-function createThumbnailInfo(minLikes, maxLikes, minComments, maxComments) {
-  return {
-    url: `photos/${getUniqueId(1, 25)()}.jpg`,
-    description: 'Вот такое вот фото',
-    likes: getRandomNum(minLikes, maxLikes),
-    comments: getRandomNum(minComments, maxComments)
-  };
-}
+const thumbnailInfoArray = Array.from({ length: MAX_ID }, () => createThumbnailInfo(MIN_LIKES, MAX_LIKES));
 
-function getThumbnail (howManyThumbnails, template, block) {
-  for (let i = 1; i <= howManyThumbnails; i++) {
-    const CLONED_TEMPLATE = template.cloneNode(true);
-    const IMAGE = CLONED_TEMPLATE.querySelector('img');
-    const PIC_LIKES = CLONED_TEMPLATE.querySelector('.picture__likes');
-    const PIC_COMMENTS = CLONED_TEMPLATE.querySelector('.picture__comments');
+const createMiniPics = () => {
+  const pictureFragment = document.createDocumentFragment();
+  thumbnailInfoArray.forEach((picture) => {
+    const clonedTemplate = templateBlock.cloneNode(true);
+    clonedTemplate.setAttribute('id', picture.id);
+    clonedTemplate.querySelector('.picture__img').src = picture.url;
+    clonedTemplate.querySelector('.picture__img').alt = picture.description;
+    clonedTemplate.querySelector('.picture__comments').textContent = picture.comments.length;
+    clonedTemplate.querySelector('.picture__likes').textContent = picture.likes;
+    pictureFragment.appendChild(clonedTemplate);
+  });
+  return pictureFragment;
+};
 
-    const NEW_PIC = createThumbnailInfo(15, 200, 1, 30);
-    IMAGE.src = NEW_PIC.url;
-    IMAGE.alt = NEW_PIC.description;
-    PIC_LIKES.textContent = NEW_PIC.likes;
-    PIC_COMMENTS.textContent = NEW_PIC.comments;
-
-    block.appendChild(CLONED_TEMPLATE);
-  }
-}
-
-export { TEMPLATE_BLOCK, PICTURE_BLOCK, getThumbnail };
+export { pictureBlock, thumbnailInfoArray, createMiniPics };

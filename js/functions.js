@@ -38,12 +38,12 @@ function getMinutes(timeString) {
 }
 
 function isDurationWorkday(start, end, meetingStart, meetingDuration) {
-  const START_WORK = getMinutes(start);
-  const END_WORK = getMinutes(end);
-  const MEETING_START = getMinutes(meetingStart);
-  const MEETING_END = MEETING_START + meetingDuration;
+  const startWork = getMinutes(start);
+  const endWork = getMinutes(end);
+  const startMeeting = getMinutes(meetingStart);
+  const endMeeting = startMeeting + meetingDuration;
 
-  return MEETING_END >= START_WORK && MEETING_END <= END_WORK;
+  return endMeeting >= startWork && endMeeting <= endWork;
 }
 
 // eslint-disable-next-line

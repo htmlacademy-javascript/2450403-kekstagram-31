@@ -18,9 +18,13 @@ function closeModal () {
   document.removeEventListener('keydown', onDocumentKeydown);
 }
 
-const onCloseBigPicture = () => {
-  closeModal();
+const onCloseBigPicture = (evt) => {
+  const isLoadMoreButton = evt.target.closest('.social__comments-loader');
+  if (!isLoadMoreButton) {
+    closeModal();
+  }
 };
+
 
 const openModal = () => {
   bigPicture.classList.remove('hidden');
@@ -38,7 +42,6 @@ const onCommentsLoaderClick = function (evt) {
   evt.preventDefault();
   uploadComments();
   showMoreComments();
-  console.log('click');
 };
 
 loadMoreButton.addEventListener('click', onCommentsLoaderClick);

@@ -31,6 +31,7 @@ const uploadComments = () => {
 
   bigPicture.querySelector('.social__comment-shown-count').textContent = commentsQuantity;
 
+
   for (let i = 0; i < commentsQuantity; i++) {
     commentsArray[i].classList.remove('hidden');
   }

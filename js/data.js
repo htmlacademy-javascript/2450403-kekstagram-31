@@ -11,6 +11,6 @@ const NAMES = ['Артём', 'Виктор', 'Ольга', 'Анна', 'Дмит
 const MAX_ID = 25;
 const MIN_LIKES = 15;
 const MAX_LIKES = 200;
-const COMMENTS_LIMIT = 5;
 
-export { MESSAGES , NAMES , MAX_ID , MIN_LIKES, MAX_LIKES, COMMENTS_LIMIT};
+
+export { MESSAGES , NAMES , MAX_ID , MIN_LIKES, MAX_LIKES};

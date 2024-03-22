@@ -23,47 +23,24 @@ const renderingComments = (src, name, message) => {
   return socialCommentsList;
 };
 
+let currentIndex = 0;
 
 const uploadComments = () => {
-  const commentsArray = bigPicture.querySelectorAll('.social__comment.hidden');
-  const commentsRemaining = commentsArray.length - COMMENTS_LIMIT;
-  const commentsQuantity = (commentsRemaining > 0) ? COMMENTS_LIMIT : Math.max(commentsArray.length, 0);
+  const commentsArray = bigPicture.querySelectorAll('.social__comment');
+  const currentLength = currentIndex + COMMENTS_LIMIT;
+  const threshold = (commentsArray.length > currentLength) ? currentLength : commentsArray.length;
 
-  bigPicture.querySelector('.social__comment-shown-count').textContent = commentsQuantity;
+  document.querySelector('.social__comment-shown-count').textContent = threshold;
 
-
-  for (let i = 0; i < commentsQuantity; i++) {
+  for (let i = currentIndex; i < threshold; i++) {
     commentsArray[i].classList.remove('hidden');
   }
 
-  if (commentsRemaining <= 0) {
+  currentIndex += COMMENTS_LIMIT;
+
+  if (threshold >= commentsArray.length) {
     loadMoreButton.classList.add('hidden');
-  } else {
-    loadMoreButton.classList.remove('hidden');
-  }
-};
-
-const showMoreComments = () => {
-  const hiddenComments = document.querySelectorAll('.social__comment.hidden');
-  const shownCount = bigPicture.querySelector('.social__comment-shown-count');
-
-  if (hiddenComments.length > 0) {
-    const commentsToShow = hiddenComments.length >= COMMENTS_LIMIT ? COMMENTS_LIMIT : hiddenComments.length;
-
-    for (let i = 0; i < commentsToShow; i++) {
-      hiddenComments[i].classList.remove('hidden');
-    }
-
-    shownCount.textContent = parseInt(shownCount.textContent, 10) + commentsToShow;
-
-    if (hiddenComments.length <= COMMENTS_LIMIT || hiddenComments.length === 0) {
-      loadMoreButton.classList.add('hidden');
-    }
-  }
-
-  const visibleComments = document.querySelectorAll('.social__comment:not(.hidden)');
-  if (visibleComments.length + hiddenComments.length <= COMMENTS_LIMIT) {
-    loadMoreButton.classList.add('hidden');
+    currentIndex = 0;
   } else {
     loadMoreButton.classList.remove('hidden');
   }
@@ -93,4 +70,4 @@ const makeFullModal = (clikedPic, bigPic) => {
   uploadComments();
 };
 
-export { makeFullModal, uploadComments, showMoreComments} ;
+export { makeFullModal, uploadComments} ;

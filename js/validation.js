@@ -1,10 +1,5 @@
 import { imgUploadForm } from './upload-images';
 
-const imgUploadText = imgUploadForm.querySelector('.img-upload__text.text');
-const uploadWrapper = imgUploadForm.querySelectorAll('.img-upload__field-wrapper');
-const hashTagInput = imgUploadText.querySelector('.text__hashtags');
-const commentDescription = imgUploadText.querySelector('.text__description');
-
 const pristine = new Pristine(imgUploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorClass: 'form__item--invalid',

@@ -33,15 +33,14 @@ noUiSlider.create(effectLevelSlider, {
 
 effectLevelSlider.noUiSlider.on('update', () => {
   effectLevelValue.value = effectLevelSlider.noUiSlider.get();
-  effectLevelValue.textContent = effectLevelValue.value; // не отображается число в рамках textContent, хотя в console.log всё отображается
+  effectLevelValue.textContent = effectLevelValue.value;
 });
 
+uploadEffectLevel.classList.add('hidden');
 effectNone.checked = true;
 
 effectNone.addEventListener('change', () => {
   if (effectNone.checked) {
-    uploadEffectLevel.classList.add('hidden');
-
     uploadedImgPreview.style.filter = '';
   }
 });
@@ -85,7 +84,7 @@ effectSepia.addEventListener('change', () => {
 });
 
 effectMarvin.addEventListener('change', () => {
-  if (effectSepia.checked) {
+  if (effectMarvin.checked) {
     uploadEffectLevel.classList.remove('hidden');
 
     effectLevelSlider.noUiSlider.updateOptions({

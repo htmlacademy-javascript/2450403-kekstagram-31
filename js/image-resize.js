@@ -1,4 +1,4 @@
-import { imgUploadForm } from './upload-image';
+import { imgUploadForm } from './upload-images';
 
 const scaleControlSmaller = imgUploadForm.querySelector('.scale__control--smaller');
 const scaleControlBigger = imgUploadForm.querySelector('.scale__control--bigger');

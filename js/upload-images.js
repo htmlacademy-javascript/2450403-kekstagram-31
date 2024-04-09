@@ -1,4 +1,4 @@
-import { isEscapeKey } from './utils';
+import { isEscapeKey } from './utils.js';
 
 const imgUploadForm = document.querySelector('.img-upload__form');
 const imgUploadInput = imgUploadForm.querySelector('.img-upload__input');
@@ -11,7 +11,6 @@ const uploadNewImage = (evt) => {
   uploadedImgPreview.src = '';
   const file = evt.target.files[0];
   uploadedImgPreview.src = URL.createObjectURL(file);
-  imgUploadInput.value = null; // Значение каких других полей формы нужно еще сбросить?
 };
 
 const onOverlayKeydown = (evt) => {
@@ -22,6 +21,7 @@ const onOverlayKeydown = (evt) => {
 };
 
 function closeImgUpload () {
+  imgUploadForm.reset();
   imgUploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onOverlayKeydown);
@@ -47,6 +47,4 @@ imgUploadInput.addEventListener('change', onImgUploadInputChange);
 imgUploadCancelButton.addEventListener('click', onCloseImgUpload);
 
 
-export {onImgUploadInputChange, imgUploadInput, imgUploadForm};
-
-
+export {onImgUploadInputChange, onCloseImgUpload, imgUploadInput, imgUploadForm, imgUploadCancelButton, closeImgUpload};

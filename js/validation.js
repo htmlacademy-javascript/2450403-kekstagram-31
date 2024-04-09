@@ -1,4 +1,6 @@
-import { imgUploadForm } from './upload-image';
+import { imgUploadForm } from './upload-images';
+
+const imgUploadButton = imgUploadForm.querySelector('.img-upload__submit');
 
 const pristine = new Pristine(imgUploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -35,7 +37,10 @@ const validateHashTag = (hashtagString) => {
 };
 
 const validateComment = (commentString) => {
-  const commentRegexp = /^[a-zа-яё0-9\s]{0,140}$/i;
+  if (!commentString) {
+    return true;
+  }
+  const commentRegexp = /^[a-zа-яё0-9\s@#$%]{0,140}$/i;
   return commentRegexp.test(commentString);
 };
 
@@ -53,7 +58,16 @@ pristine.addValidator(
   'Слишком длинный комментарий'
 );
 
-imgUploadForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
+function validateForm() {
+  console.log('validateForm called');
+  if (pristine.validate()) {
+    imgUploadButton.disabled = false;
+  } else {
+    imgUploadButton.disabled = true;
+  }
+}
+
+imgUploadForm.querySelectorAll('input, textarea').forEach((field) => {
+  field.addEventListener('input', validateForm);
+  field.addEventListener('change', validateForm);
 });

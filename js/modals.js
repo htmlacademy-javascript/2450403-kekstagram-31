@@ -47,9 +47,31 @@ function onPictureBlockClick (evt) {
   }
 }
 
-const onCommentsLoaderClick = function (evt) {
+const onCommentsLoaderClick = (evt) => {
   evt.preventDefault();
   uploadComments();
+};
+
+const closeInfoSection = () => {
+  const sectionClose = document.querySelector('.success__inner, .error__inner');
+  const section = document.querySelector('section.success, section.error');
+  sectionClose.remove();
+  section.remove();
+};
+
+const onOutsideInfoBlockClick = (evt) => {
+  const sectionClose = document.querySelector('.success__inner, .error__inner');
+  if (!sectionClose.contains(evt.target)) {
+    closeInfoSection();
+  }
+};
+
+const closeOnEscapeInfoBlock = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closeInfoSection();
+    document.removeEventListener('click', closeOnEscapeInfoBlock);
+  }
 };
 
 
@@ -58,4 +80,4 @@ cancelBigPicture.addEventListener('click', onCloseBigPicture);
 loadMoreButton.addEventListener('click', onCommentsLoaderClick);
 document.addEventListener('click', onOutsideClick);
 
-export {onDocumentKeydown, onCloseBigPicture, openModal, closeModal, onPictureBlockClick, bigPicture, loadMoreButton };
+export {onDocumentKeydown, onCloseBigPicture, openModal, closeModal, onPictureBlockClick, closeInfoSection, onOutsideInfoBlockClick, closeOnEscapeInfoBlock, bigPicture, loadMoreButton };

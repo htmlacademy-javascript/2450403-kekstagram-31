@@ -48,3 +48,5 @@ imgUploadCancelButton.addEventListener('click', onCloseImgUpload);
 
 
 export {onImgUploadInputChange, onCloseImgUpload, imgUploadInput, imgUploadForm, imgUploadCancelButton, closeImgUpload};
+
+

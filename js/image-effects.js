@@ -193,7 +193,7 @@ const handleFromError = () => {
       case 'noEffect':
         if (effectNone.noEffect) {
           uploadEffectLevel.classList.add('hidden');
-          uploadedImgPreview.style.filter = ''; // почему так???
+          uploadedImgPreview.style.filter = ''; 
         }
         break;
       case 'chrome':

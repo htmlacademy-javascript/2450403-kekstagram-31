@@ -1,5 +1,3 @@
-const ERROR_MESSAGE_TIME = 5000;
-
 function getRandomNum(min, max) {
   const lowerValue = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
   const upperValue = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
@@ -30,16 +28,4 @@ function getUniqueCommentId() {
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const showErrorBlock = () => {
-  const dataErrorTemplate = document.querySelector('#data-error');
-  const dataError = dataErrorTemplate.content.cloneNode(true);
-
-  document.body.appendChild(dataError);
-
-  setTimeout(() => {
-    dataError.remove();
-  }, ERROR_MESSAGE_TIME);
-};
-
-
-export { getRandomNum, getUniqueId, getUniqueCommentId, isEscapeKey, showErrorBlock };
+export { getRandomNum, getUniqueId, getUniqueCommentId, isEscapeKey };

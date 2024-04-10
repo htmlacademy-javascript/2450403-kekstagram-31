@@ -1,5 +1,5 @@
 import { BASE_URL, Route, ErrorText, RANDOM_PICTURES_AMOUNT } from './data.js';
-import { showErrorBlockGet } from './methods-info-bloks.js';
+import { showErrorBlockGet } from './methods-info-blocks.js';
 import { createMiniPics } from './thumbnail-rendering.js';
 
 const imgFilterSection = document.querySelector('.img-filters');
@@ -21,7 +21,7 @@ const generateRandomPictures = (picsObj, count, cb) => {
       randomPicturesObj[pictureId] = picture;
     }
   }
-  cb(randomPicturesObj);
+  cb(Object.values(randomPicturesObj));
 };
 
 const getCommentsRank = (cb) => {
@@ -40,7 +40,7 @@ const getCommentsRank = (cb) => {
       for (const photo of photosArray) {
         sortedPhotosObject[photo.id] = photo;
       }
-      cb(sortedPhotosObject);
+      cb(Object.values(sortedPhotosObject).sort((a, b) => b.comments.length - a.comments.length));
     });
 };
 
@@ -79,17 +79,9 @@ const filterRandomImages = () => {
 };
 
 const filterDiscussedImages = () => {
-  getCommentsRank(createMiniPics)
-    .catch((error) => {
-      if (error instanceof TypeError) {
-        console.error('Ошибка типа: ', error.message);
-      } else if (error instanceof SyntaxError) {
-        console.error('Синтаксическая ошибка: ', error.message);
-      } else {
-        console.error('Другая ошибка: ', error.message);
-      }
-      showErrorBlockGet();
-    });
+  getCommentsRank(createMiniPics).catch(() => {
+    showErrorBlockGet();
+  });
 };
 
 let currentFilter = 'default';
@@ -101,7 +93,10 @@ const selectFilter = (filterType) => {
       button.classList.remove('img-filters__button--active');
     });
 
-    document.querySelector(`#filter-${filterType}`).classList.add('img-filters__button--active');
+    document
+      .querySelector(`#filter-${filterType}`)
+      .classList.add('img-filters__button--active');
+    clearPics();
     switch (filterType) {
       case 'default':
         filterDefaultImages();
@@ -115,6 +110,13 @@ const selectFilter = (filterType) => {
     }
   }
 };
+
+function clearPics () {
+  const pictures = document.querySelectorAll('.picture');
+  pictures.forEach((picture) => {
+    picture.remove();
+  });
+}
 
 filterDefault.addEventListener('click', () => selectFilter('default'));
 filterRandom.addEventListener('click', () => selectFilter('random'));

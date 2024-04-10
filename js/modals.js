@@ -80,4 +80,15 @@ cancelBigPicture.addEventListener('click', onCloseBigPicture);
 loadMoreButton.addEventListener('click', onCommentsLoaderClick);
 document.addEventListener('click', onOutsideClick);
 
-export {onDocumentKeydown, onCloseBigPicture, openModal, closeModal, onPictureBlockClick, closeInfoSection, onOutsideInfoBlockClick, closeOnEscapeInfoBlock, bigPicture, loadMoreButton };
+export {
+  onDocumentKeydown,
+  onCloseBigPicture,
+  openModal,
+  closeModal,
+  onPictureBlockClick,
+  closeInfoSection,
+  onOutsideInfoBlockClick,
+  closeOnEscapeInfoBlock,
+  bigPicture,
+  loadMoreButton
+};

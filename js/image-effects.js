@@ -1,7 +1,7 @@
 import { imgUploadForm } from './upload-images.js';
 import { uploadedImgPreview } from './image-resize.js';
 import {imgUploadCancelButton } from './upload-images.js';
-import { validateForm } from './validation.js';
+import { validateForm, imgUploadButton } from './validation.js';
 
 const effectLevelValue = imgUploadForm.querySelector('.effect-level__value'); // значение
 const effectLevelSlider = imgUploadForm.querySelector('.effect-level__slider'); // отображение значения
@@ -43,6 +43,7 @@ uploadEffectLevel.classList.add('hidden');
 
 effectNone.addEventListener('change', () => {
   if (effectNone.checked) {
+    uploadEffectLevel.classList.add('hidden');
     uploadedImgPreview.style.filter = '';
   }
 });
@@ -171,8 +172,14 @@ const resetFormData = () => {
 
 const handleFromError = () => {
   const { hashtagsAndDescription, effectStates, imageSizeValue } = savedFormData;
-  imgUploadForm.querySelector('[name="hashtags"]').value = hashtagsAndDescription.hashtags;
-  imgUploadForm.querySelector('[name="description"]').value = hashtagsAndDescription.description;
+  const savedHashtags = imgUploadForm.querySelector('[name="hashtags"]');
+  const savedDescription = imgUploadForm.querySelector('[name="description"]');
+
+  if (savedHashtags.value) {
+    savedHashtags.value = hashtagsAndDescription.hashtags.value;
+  } else if (savedDescription.value) {
+    savedDescription.value = hashtagsAndDescription.description.value;
+  }
 
   const parentWidth = imgUploadForm.offsetWidth;
   const parentHeight = imgUploadForm.offsetHeight;
@@ -184,23 +191,26 @@ const handleFromError = () => {
   for (const effect in effectStates) {
     switch (effect) {
       case 'noEffect':
-        if (effectNone.checked) {
+        if (effectNone.noEffect) {
           uploadEffectLevel.classList.add('hidden');
           uploadedImgPreview.style.filter = ''; // почему так???
         }
         break;
       case 'chrome':
         if (effectStates.chrome) {
+          effectStates.chrome.checked = true;
           uploadedImgPreview.style.filter = `grayscale(${effectStates.level})`;
         }
         break;
       case 'sepia':
         if (effectStates.sepia) {
+          effectStates.chrome.checked = true;
           uploadedImgPreview.style.filter = `sepia(${effectStates.level})`;
         }
         break;
       case 'marvin':
         if (effectStates.marvin) {
+          effectStates.chrome.checked = true;
           uploadedImgPreview.style.filter = `invert(${effectStates.level}%)`;
         }
         break;
@@ -216,6 +226,7 @@ const handleFromError = () => {
         break;
     }
   }
+  imgUploadButton.disabled = false;
   validateForm();
   imgUploadCancelButton.addEventListener('click', resetFormData);
 };

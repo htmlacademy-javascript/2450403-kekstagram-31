@@ -122,7 +122,4 @@ filterDefault.addEventListener('click', () => selectFilter('default'));
 filterRandom.addEventListener('click', () => selectFilter('random'));
 filterDiscussed.addEventListener('click', () => selectFilter('discussed'));
 
-{/* <button type=button class="img-filters__button  img-filters__button--active" id="filter-default">По умолчанию</button>
-<button type=button class="img-filters__button" id="filter-random">Случайные</button>
-<button type=button class="img-filters__button" id="filter-discussed">Обсуждаемые</button> */}
 export { getCommentsRank, generateRandomPictures, filterDefaultImages, filterRandomImages, imgFilterSection};

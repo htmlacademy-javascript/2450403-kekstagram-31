@@ -1,6 +1,5 @@
 import { openModal, bigPicture, loadMoreButton } from './modals.js';
-import { COMMENTS_LIMIT } from './data.js';
-
+import { COMMENTS_LIMIT, BASE_URL, Route, ErrorText } from './data.js';
 
 const renderingComments = (src, name, message) => {
   const socialCommentsList = document.createElement('li');
@@ -46,8 +45,14 @@ const uploadComments = () => {
 
 
 const makeFullModal = (clikedPic, bigPic) => {
-  fetch('https://31.javascript.htmlacademy.pro/kekstagram/data')
-    .then((response) => response.json())
+  fetch(`${BASE_URL}${Route.GET_DATA}`)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(ErrorText.GET_DATA);
+      }
+    })
     .then((photos) => {
       const photosArray = Array.from(photos);
       const pictureMap = photosArray.reduce((acc, val) => {

@@ -11,6 +11,10 @@ const uploadNewImage = (evt) => {
   uploadedImgPreview.src = '';
   const file = evt.target.files[0];
   uploadedImgPreview.src = URL.createObjectURL(file);
+  const effectsPreview = document.querySelectorAll('.effects__preview'); //пофиксила
+  effectsPreview.forEach((preview) => {
+    preview.style.backgroundImage = `url(${uploadedImgPreview.src})`;
+  });
 };
 
 const onOverlayKeydown = (evt) => {
@@ -48,3 +52,5 @@ imgUploadCancelButton.addEventListener('click', onCloseImgUpload);
 
 
 export {onImgUploadInputChange, onCloseImgUpload, imgUploadInput, imgUploadForm, imgUploadCancelButton, closeImgUpload};
+
+

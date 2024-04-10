@@ -16,4 +16,4 @@ const createMiniPics = (picsObj) => {
   pictureBlock.appendChild(pictureFragment);
 };
 
-export { createMiniPics };
+export { createMiniPics, pictureBlock};

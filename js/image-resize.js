@@ -1,5 +1,4 @@
-import { imgUploadForm } from './upload-images.js';
-
+const imgUploadForm = document.querySelector('.img-upload__form');
 const scaleControlSmaller = imgUploadForm.querySelector('.scale__control--smaller');
 const scaleControlBigger = imgUploadForm.querySelector('.scale__control--bigger');
 const scaleControlValue = imgUploadForm.querySelector('.scale__control--value');
@@ -36,4 +35,4 @@ const onMakeImageSmallerClick = (evt) => {
 scaleControlBigger.addEventListener('click', onMakeImageBiggerClick);
 scaleControlSmaller.addEventListener('click', onMakeImageSmallerClick);
 
-export {uploadedImgPreview};
+export {uploadedImgPreview, imgUploadForm};

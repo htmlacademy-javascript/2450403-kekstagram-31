@@ -13,6 +13,7 @@ import { onCloseImgUpload } from './upload-images.js';
 import { showErrorBlockGet } from './methods-info-blocks.js';
 import { BASE_URL, Route, ErrorText} from './data.js';
 import './filters.js';
+import './save-data.js';
 import { imgFilterSection } from './filters.js';
 
 fetch(`${BASE_URL}${Route.GET_DATA}`)

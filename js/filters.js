@@ -1,12 +1,12 @@
-import { BASE_URL, Route, ErrorText, RANDOM_PICTURES_AMOUNT } from './data.js';
+import { BASE_URL, Route, ErrorText, RANDOM_PICTURES_AMOUNT, RERENDER_DELAY } from './data.js';
 import { showErrorBlockGet } from './methods-info-blocks.js';
 import { createMiniPics } from './thumbnail-rendering.js';
+import { debounce } from './utils.js';
 
 const imgFilterSection = document.querySelector('.img-filters');
 const filterDefault = imgFilterSection.querySelector('#filter-default');
 const filterRandom = imgFilterSection.querySelector('#filter-random');
 const filterDiscussed = imgFilterSection.querySelector('#filter-discussed');
-
 
 const generateRandomPictures = (picsObj, count, cb) => {
   const randomPicturesObj = {};
@@ -24,7 +24,7 @@ const generateRandomPictures = (picsObj, count, cb) => {
   cb(Object.values(randomPicturesObj));
 };
 
-const getCommentsRank = (cb) => {
+const getCommentsRank = (cb) =>
   fetch(`${BASE_URL}${Route.GET_DATA}`)
     .then((response) => {
       if (response.ok) {
@@ -40,9 +40,18 @@ const getCommentsRank = (cb) => {
       for (const photo of photosArray) {
         sortedPhotosObject[photo.id] = photo;
       }
-      cb(Object.values(sortedPhotosObject).sort((a, b) => b.comments.length - a.comments.length));
+      cb(Object.values(sortedPhotosObject).sort((a, b) => b.likes - a.likes));
     });
-};
+
+const debounceGenerateRandomPictures = debounce((photos) => {
+  generateRandomPictures(photos, RANDOM_PICTURES_AMOUNT, createMiniPics);
+}, RERENDER_DELAY);
+
+const debounceGetCommentsRank = debounce(() => {
+  getCommentsRank(createMiniPics).catch(() => {
+    showErrorBlockGet();
+  });
+}, RERENDER_DELAY);
 
 const filterDefaultImages = () => {
   fetch(`${BASE_URL}${Route.GET_DATA}`)
@@ -54,7 +63,8 @@ const filterDefaultImages = () => {
       }
     })
     .then((photos) => {
-      createMiniPics(photos);
+      const delayedCreateMiniPics = debounce(createMiniPics, RERENDER_DELAY);
+      delayedCreateMiniPics(photos);
     })
     .catch(() => {
       showErrorBlockGet();
@@ -71,7 +81,7 @@ const filterRandomImages = () => {
       }
     })
     .then((photos) => {
-      generateRandomPictures(photos, RANDOM_PICTURES_AMOUNT, createMiniPics);
+      debounceGenerateRandomPictures(photos);
     })
     .catch(() => {
       showErrorBlockGet();
@@ -79,9 +89,7 @@ const filterRandomImages = () => {
 };
 
 const filterDiscussedImages = () => {
-  getCommentsRank(createMiniPics).catch(() => {
-    showErrorBlockGet();
-  });
+  debounceGetCommentsRank();
 };
 
 let currentFilter = 'default';
@@ -111,7 +119,7 @@ const selectFilter = (filterType) => {
   }
 };
 
-function clearPics () {
+function clearPics() {
   const pictures = document.querySelectorAll('.picture');
   pictures.forEach((picture) => {
     picture.remove();
@@ -122,4 +130,10 @@ filterDefault.addEventListener('click', () => selectFilter('default'));
 filterRandom.addEventListener('click', () => selectFilter('random'));
 filterDiscussed.addEventListener('click', () => selectFilter('discussed'));
 
-export { getCommentsRank, generateRandomPictures, filterDefaultImages, filterRandomImages, imgFilterSection};
+export {
+  getCommentsRank,
+  generateRandomPictures,
+  filterDefaultImages,
+  filterRandomImages,
+  imgFilterSection,
+};

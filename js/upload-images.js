@@ -1,6 +1,7 @@
 import { isEscapeKey } from './utils.js';
+import { resetEffects } from './image-effects.js';
+import { imgUploadForm } from './image-resize.js';
 
-const imgUploadForm = document.querySelector('.img-upload__form');
 const imgUploadInput = imgUploadForm.querySelector('.img-upload__input');
 const imgUploadOverlay = imgUploadForm.querySelector('.img-upload__overlay');
 const imgUploadCancelButton = imgUploadForm.querySelector('.img-upload__cancel');
@@ -11,14 +12,15 @@ const uploadNewImage = (evt) => {
   uploadedImgPreview.src = '';
   const file = evt.target.files[0];
   uploadedImgPreview.src = URL.createObjectURL(file);
-  const effectsPreview = document.querySelectorAll('.effects__preview'); //пофиксила
+  const effectsPreview = document.querySelectorAll('.effects__preview');
   effectsPreview.forEach((preview) => {
     preview.style.backgroundImage = `url(${uploadedImgPreview.src})`;
   });
 };
 
 const onOverlayKeydown = (evt) => {
-  if (isEscapeKey(evt) && !isInputFocused()) {
+  const section = document.querySelector('section.success, section.error');
+  if (isEscapeKey(evt) && !isInputFocused() && !section) {
     evt.preventDefault();
     closeImgUpload();
   }
@@ -29,6 +31,7 @@ function closeImgUpload () {
   imgUploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onOverlayKeydown);
+  resetEffects();
 }
 
 const onImgUploadInputChange = (evt) => {

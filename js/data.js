@@ -1,6 +1,10 @@
 const COMMENTS_LIMIT = 5;
 
+const HASHTAGS_LIMIT = 5;
+
 const ERROR_MESSAGE_TIME = 5000;
+
+const RERENDER_DELAY = 500;
 
 const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
 const Route = {
@@ -16,4 +20,14 @@ const ErrorText = {
 const RANDOM_PICTURES_AMOUNT = 10;
 const TIME_LIMIT = 500;
 
-export { BASE_URL, Route, ErrorText, COMMENTS_LIMIT, ERROR_MESSAGE_TIME, RANDOM_PICTURES_AMOUNT, TIME_LIMIT};
+export {
+  BASE_URL,
+  Route,
+  ErrorText,
+  COMMENTS_LIMIT,
+  ERROR_MESSAGE_TIME,
+  RANDOM_PICTURES_AMOUNT,
+  TIME_LIMIT,
+  HASHTAGS_LIMIT,
+  RERENDER_DELAY
+};

@@ -61,8 +61,10 @@ const closeInfoSection = () => {
 
 const onOutsideInfoBlockClick = (evt) => {
   const sectionClose = document.querySelector('.success__inner, .error__inner');
-  if (!sectionClose.contains(evt.target)) {
-    closeInfoSection();
+  if (sectionClose) {
+    if (!sectionClose.contains(evt.target)) {
+      closeInfoSection();
+    }
   }
 };
 

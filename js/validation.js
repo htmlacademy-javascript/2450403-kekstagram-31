@@ -1,6 +1,7 @@
-import { imgUploadForm } from './upload-images.js';
+import { imgUploadForm } from './image-resize.js';
+import { HASHTAGS_LIMIT } from './data.js';
 
-const imgUploadButton = imgUploadForm.querySelector('.img-upload__submit'); // Добавить в основной проект
+const imgUploadButton = imgUploadForm.querySelector('.img-upload__submit');
 
 const pristine = new Pristine(imgUploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -16,14 +17,19 @@ const validateHashTag = (hashtagString) => {
     return true;
   }
 
-  const hashtags = hashtagString.split(' ');
+  let hashtags;
+  if (Array.isArray(hashtagString)) {
+    hashtags = hashtagString.map((tag) => tag.toLowerCase());
+  } else {
+    hashtags = hashtagString.split(' ').map((tag) => tag.toLowerCase());
+  }
 
   const uniqueHashtags = new Set (hashtags);
   if (uniqueHashtags.size !== hashtags.length) {
     return false;
   }
 
-  if (hashtags.length > 5) {
+  if (hashtags.length > HASHTAGS_LIMIT) {
     return false;
   }
 
@@ -40,7 +46,7 @@ const validateComment = (commentString) => {
   if (!commentString) {
     return true;
   }
-  const commentRegexp = /^[a-zа-яё0-9\s@#$%;]{0,140}$/i;
+  const commentRegexp = /^[a-zа-яё0-9\s@#$%;'"./]{0,140}$/i;
   return commentRegexp.test(commentString);
 };
 
@@ -60,13 +66,13 @@ const areHashtagsUnique = (hashtagString) => {
     return true;
   }
 
-  const hashtags = hashtagString.split(' ');
+  const hashtags = hashtagString.split(' ').map((tag) => tag.toLowerCase());
   const uniqueHashtags = new Set(hashtags);
 
   return hashtags.length === uniqueHashtags.size;
 };
 
-const isValidСharacter = (hashtagString) => {
+const isValidCharacter = (hashtagString) => {
   if (!hashtagString) {
     return true;
   }
@@ -100,13 +106,14 @@ const areValidHashTags = (hashtagString) => {
   return true;
 };
 
-
 function validateForm() {
   const hashtagsInput = imgUploadForm.querySelector('[name="hashtags"]');
   const descriptionInput = imgUploadForm.querySelector('[name="description"]');
   const errorWrappers = imgUploadForm.querySelectorAll('.pristine-error');
+  const hashtags = hashtagsInput.value.trim();
+  const hashtagsArray = hashtags.split(' ');
 
-  if (pristine.validate()) {
+  if (pristine.validate() && hashtagsArray.length <= HASHTAGS_LIMIT) {
     imgUploadButton.disabled = false;
   } else {
     imgUploadButton.disabled = true;
@@ -115,14 +122,14 @@ function validateForm() {
       wrapper.classList.add('img-upload__field-wrapper--error');
 
       if (!areValidHashTags(hashtagsInput.value)) {
-        wrapper.textContent = 'Ошибка: Неверный формат хэштега'; // ок ли, если выскакивет ошибка в случае '#Хэштег '?
-      } else if (hashtagsInput.value.split(' ').length > 5) {
+        wrapper.textContent = 'Ошибка: Неверный формат хэштега';
+      } else if (hashtags.length > HASHTAGS_LIMIT) {
         wrapper.textContent = 'Ошибка: Превышено количество хэштегов';
-      } else if (!isValidСharacter(hashtagsInput.value)) {
+      } else if (!isValidCharacter(hashtagsInput.value)) {
         wrapper.textContent = 'Ошибка: Недопустимый символ';
       } else if (!areHashtagsUnique(hashtagsInput.value)) {
         wrapper.textContent = 'Ошибка: Хэштеги должны быть уникальными';
-      } else if (!descriptionInput.checkValidity()) {
+      } else if (!validateComment(descriptionInput.value)) {
         wrapper.textContent = 'Ошибка: Слишком длинный комментарий';
       }
     });
